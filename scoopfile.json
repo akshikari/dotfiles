@@ -1,24 +1,24 @@
 {
   "buckets": [
-    { "Name": "main" },
-    { "Name": "extras" }
+    { "Name": "main", "Source": "https://github.com/ScoopInstaller/Main" },
+    { "Name": "extras", "Source": "https://github.com/ScoopInstaller/Extras" }
   ],
   "apps": [
-    { "Name": "extras/wezterm" },
-    { "Name": "extras/glazewm" },
-    { "Name": "extras/yasb" },
-    { "Name": "main/git" },
-    { "Name": "main/neovim" },
-    { "Name": "main/lazygit" },
-    { "Name": "main/fzf" },
-    { "Name": "main/fd" },
-    { "Name": "main/ripgrep" },
-    { "Name": "main/zoxide" },
-    { "Name": "main/eza" },
-    { "Name": "main/bat" },
-    { "Name": "main/starship" },
-    { "Name": "main/terraform" },
-    { "Name": "main/cmake" },
-    { "Name": "gh" }
+    { "Name": "wezterm",   "Source": "extras", "Version": "current" },
+    { "Name": "glazewm",   "Source": "extras", "Version": "current" },
+    { "Name": "yasb",      "Source": "extras", "Version": "current" },
+    { "Name": "git",       "Source": "main",   "Version": "current" },
+    { "Name": "neovim",    "Source": "main",   "Version": "current" },
+    { "Name": "lazygit",   "Source": "main",   "Version": "current" },
+    { "Name": "fzf",       "Source": "main",   "Version": "current" },
+    { "Name": "fd",        "Source": "main",   "Version": "current" },
+    { "Name": "ripgrep",   "Source": "main",   "Version": "current" },
+    { "Name": "zoxide",    "Source": "main",   "Version": "current" },
+    { "Name": "eza",       "Source": "main",   "Version": "current" },
+    { "Name": "bat",       "Source": "main",   "Version": "current" },
+    { "Name": "starship",  "Source": "main",   "Version": "current" },
+    { "Name": "terraform", "Source": "main",   "Version": "current" },
+    { "Name": "cmake",     "Source": "main",   "Version": "current" },
+    { "Name": "gh",        "Source": "main",   "Version": "current" }
   ]
 }

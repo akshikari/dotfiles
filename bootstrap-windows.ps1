@@ -10,12 +10,8 @@ if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
     Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 }
 
-# Add required buckets
-Write-Host "==> Adding Scoop buckets..."
-scoop bucket add extras
-scoop bucket add main
-
 # Install everything from scoopfile
+Write-Host "==> Adding Scoop buckets..."
 Write-Host "==> Installing Scoop packages..."
 scoop import "$HOME\dotfiles\scoopfile.json"
 
