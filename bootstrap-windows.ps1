@@ -23,7 +23,7 @@ Write-Host "==> Setting up Neovim config..."
 $nvimConfig = "$env:LOCALAPPDATA\nvim"
 $nvimSource = "$HOME\dotfiles\config\nvim"
 if (-not (Test-Path $nvimConfig)) {
-    New-Item -ItemType SymbolicLink -Path $nvimConfig -Target $nvimSource | Out-Null
+    New-Item -ItemType Junction -Path $nvimConfig -Target $nvimSource | Out-Null
     Write-Host "  linked: $nvimConfig"
 } else {
     Write-Host "  skipped: $nvimConfig already exists"
