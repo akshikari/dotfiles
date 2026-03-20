@@ -11,6 +11,10 @@
 #     name = Abhi Kumar
 #     email = abhinav@company.com
 
+[user]
+	name = Abhi Kumar
+	email = abhinavbkumar@protonmail.com
+
 [includeIf "gitdir:~/personal/"]
 	path = ~/.gitconfig-personal
 
