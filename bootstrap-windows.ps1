@@ -3,10 +3,12 @@
 
 Write-Host "==> Bootstrapping Windows dev environment..."
 
+# Allow scripts to run (required for PowerShell profiles to load)
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
+
 # Install Scoop
 if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
     Write-Host "==> Installing Scoop..."
-    Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
     Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
 }
 
@@ -29,19 +31,26 @@ if (-not (Test-Path $nvimConfig)) {
     Write-Host "  skipped: $nvimConfig already exists"
 }
 
-# PowerShell profile — create if needed and add vim alias
+# PowerShell profile — add vim alias to both PS 5.1 and PS 7 profiles
 Write-Host "==> Setting up PowerShell profile..."
-if (-not (Test-Path (Split-Path $PROFILE))) {
-    New-Item -ItemType Directory -Path (Split-Path $PROFILE) -Force | Out-Null
-}
-if (-not (Test-Path $PROFILE)) {
-    New-Item -ItemType File -Path $PROFILE -Force | Out-Null
-}
-if (-not (Select-String -Path $PROFILE -Pattern "Set-Alias vim nvim" -Quiet)) {
-    Add-Content -Path $PROFILE -Value "`nSet-Alias vim nvim"
-    Write-Host "  added: vim -> nvim alias"
-} else {
-    Write-Host "  skipped: vim alias already present"
+$profiles = @(
+    "$HOME\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1",
+    "$HOME\Documents\PowerShell\Microsoft.PowerShell_profile.ps1"
+)
+foreach ($prof in $profiles) {
+    $dir = Split-Path $prof
+    if (-not (Test-Path $dir)) {
+        New-Item -ItemType Directory -Path $dir -Force | Out-Null
+    }
+    if (-not (Test-Path $prof)) {
+        New-Item -ItemType File -Path $prof -Force | Out-Null
+    }
+    if (-not (Select-String -Path $prof -Pattern "Set-Alias vim nvim" -Quiet)) {
+        Add-Content -Path $prof -Value "`nSet-Alias vim nvim"
+        Write-Host "  added vim alias to: $prof"
+    } else {
+        Write-Host "  skipped: vim alias already in $prof"
+    }
 }
 
 # Install WSL2 if not already present
