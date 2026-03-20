@@ -18,6 +18,32 @@ scoop import "$HOME\dotfiles\scoopfile.json"
 # Disable aria2 warning
 scoop config aria2-warning-enabled false
 
+# Neovim config — symlink to dotfiles
+Write-Host "==> Setting up Neovim config..."
+$nvimConfig = "$env:LOCALAPPDATA\nvim"
+$nvimSource = "$HOME\dotfiles\config\nvim"
+if (-not (Test-Path $nvimConfig)) {
+    New-Item -ItemType SymbolicLink -Path $nvimConfig -Target $nvimSource | Out-Null
+    Write-Host "  linked: $nvimConfig"
+} else {
+    Write-Host "  skipped: $nvimConfig already exists"
+}
+
+# PowerShell profile — create if needed and add vim alias
+Write-Host "==> Setting up PowerShell profile..."
+if (-not (Test-Path (Split-Path $PROFILE))) {
+    New-Item -ItemType Directory -Path (Split-Path $PROFILE) -Force | Out-Null
+}
+if (-not (Test-Path $PROFILE)) {
+    New-Item -ItemType File -Path $PROFILE -Force | Out-Null
+}
+if (-not (Select-String -Path $PROFILE -Pattern "Set-Alias vim nvim" -Quiet)) {
+    Add-Content -Path $PROFILE -Value "`nSet-Alias vim nvim"
+    Write-Host "  added: vim -> nvim alias"
+} else {
+    Write-Host "  skipped: vim alias already present"
+}
+
 # Install WSL2 if not already present
 if (-not (Get-Command wsl -ErrorAction SilentlyContinue)) {
     Write-Host "==> Installing WSL2..."
