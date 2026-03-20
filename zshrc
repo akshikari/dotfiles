@@ -23,6 +23,10 @@ plugins=(
   zsh-autosuggestions
 )
 
+if command -v gcloud &>/dev/null; then
+  plugins+=(gcloud)
+fi
+
 # macOS-specific oh-my-zsh plugins
 if [[ "$OSTYPE" == "darwin"* ]]; then
   plugins+=(macos)
@@ -106,7 +110,7 @@ export PATH="$HOME/.local/bin:$PATH"
 # pipx completions
 fpath=(~/.zsh_completions $fpath)
 autoload -U compinit && compinit
-eval "$(register-python-argcomplete pipx)"
+command -v pipx &>/dev/null && eval "$(register-python-argcomplete pipx)"
 
 # ---- FZF -----
 eval "$(fzf --zsh)"

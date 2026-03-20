@@ -51,7 +51,8 @@ fi
 # Install Google Cloud SDK
 if ! command -v gcloud &>/dev/null && [ ! -d "$HOME/google-cloud-sdk" ]; then
   echo "==> Installing Google Cloud SDK..."
-  curl -fsSL https://dl.google.com/dl/cloudsdk/channels/rapid/install.sh | bash
+  curl -fsSL https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-linux-x86_64.tar.gz | tar -xz -C "$HOME"
+  "$HOME/google-cloud-sdk/install.sh" --quiet
 fi
 
 # Set up symlinks

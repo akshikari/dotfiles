@@ -1,7 +1,7 @@
 export ZPROFILE_LOADED=1
 
 # Cargo
-. "$HOME/.cargo/env"
+[ -f "$HOME/.cargo/env" ] && . "$HOME/.cargo/env"
 
 # Homebrew — handles Apple Silicon, Intel, and Linux
 if [[ "$(uname -m)" == "arm64" ]]; then
@@ -16,7 +16,7 @@ fi
 # pyenv
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
+command -v pyenv &>/dev/null && eval "$(pyenv init -)"
 
 # pipx
 export PATH="$PATH:$HOME/.local/bin"
