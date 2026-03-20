@@ -29,7 +29,7 @@ if is_windows then
 
 	config.enable_tab_bar = true
 	config.use_fancy_tab_bar = true
-	config.hide_tab_bar_if_only_one_tab = false
+	config.hide_tab_bar_if_only_one_tab = true
 	config.tab_bar_at_bottom = false
 
 	config.launch_menu = {
