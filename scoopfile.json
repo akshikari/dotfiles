@@ -19,6 +19,9 @@
     { "Name": "starship",  "Source": "main",   "Version": "current" },
     { "Name": "terraform", "Source": "main",   "Version": "current" },
     { "Name": "cmake",     "Source": "main",   "Version": "current" },
-    { "Name": "gh",        "Source": "main",   "Version": "current" }
+    { "Name": "gcc",       "Source": "main",   "Version": "current" },
+    { "Name": "gh",        "Source": "main",   "Version": "current" },
+    { "Name": "nvm",       "Source": "main",   "Version": "current" },
+    { "Name": "go",        "Source": "main",   "Version": "current" }
   ]
 }
