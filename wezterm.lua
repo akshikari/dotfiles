@@ -34,16 +34,16 @@ if is_windows then
 
 	config.launch_menu = {
 		{ label = "WSL Ubuntu (zsh)", args = { "wsl.exe", "--distribution", "Ubuntu", "--exec", "/bin/zsh" } },
-		{ label = "PowerShell 7",     args = { "pwsh.exe" } },
+		{ label = "PowerShell 7", args = { "pwsh.exe" } },
 		{ label = "Windows PowerShell", args = { "powershell.exe" } },
-		{ label = "CMD",              args = { "cmd.exe" } },
+		{ label = "CMD", args = { "cmd.exe" } },
 	}
 
 	config.keys = {
 		{ key = "t", mods = "CTRL|SHIFT", action = act.SpawnTab("CurrentPaneDomain") },
 		{ key = "w", mods = "CTRL|SHIFT", action = act.CloseCurrentTab({ confirm = true }) },
 		{ key = "RightArrow", mods = "CTRL|SHIFT", action = act.ActivateTabRelative(1) },
-		{ key = "LeftArrow",  mods = "CTRL|SHIFT", action = act.ActivateTabRelative(-1) },
+		{ key = "LeftArrow", mods = "CTRL|SHIFT", action = act.ActivateTabRelative(-1) },
 		{ key = "=", mods = "CTRL", action = act.IncreaseFontSize },
 		{ key = "-", mods = "CTRL", action = act.DecreaseFontSize },
 		{ key = "0", mods = "CTRL", action = act.ResetFontSize },
@@ -73,8 +73,6 @@ else
 				act.ClearScrollback("ScrollbackAndViewport"),
 			}),
 		},
-		-- Ctrl+Enter → CSI-u sequence for apps that need it (e.g. Harlequin)
-		{ key = "Enter", mods = "CTRL", action = act.SendString("\x1b[13;5u") },
 	}
 end
 
