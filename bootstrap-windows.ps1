@@ -20,6 +20,13 @@ scoop import "$HOME\dotfiles\scoopfile.json"
 # Disable aria2 warning
 scoop config aria2-warning-enabled false
 
+# Install Node.js LTS via nvm
+Write-Host "==> Installing Node.js LTS via nvm..."
+$env:NVM_HOME = "$HOME\scoop\apps\nvm\current"
+$env:NVM_SYMLINK = "$HOME\scoop\apps\nvm\current\nodejs\nodejs"
+nvm install lts
+nvm use lts
+
 # Neovim config — symlink to dotfiles
 Write-Host "==> Setting up Neovim config..."
 $nvimConfig = "$env:LOCALAPPDATA\nvim"
