@@ -1,0 +1,121 @@
+# General configs
+add_newline = false
+
+# Increase the timeout to 1500ms
+command_timeout = 1500
+
+# Prompt format configs
+format = """
+$sudo\
+$username\
+$container\
+$directory\
+$git_branch\
+$git_status\
+$git_state\
+$nodejs\
+$python\
+$rust\
+$golang\
+$php\
+$character\
+"""
+
+right_format = """
+$cmd_duration\
+$kubernetes\
+$docker_context\
+"""
+
+# Prompt profile configs
+[username]
+show_always = true
+style_user = "fg:#c6d0f5"
+style_root = "fg:#e78284"
+format = '[$user]($style) [│](fg:#626880) '
+aliases = { "abhinavkumar" = "ak", "abhin" = "ak", "akumar" = "ak" }
+
+[directory]
+style = "fg:#8caaee"
+format = "[$path]($style) [│](fg:#626880) "
+truncation_length = 1
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+
+[git_branch]
+symbol = ""
+style = "fg:#a6d189"
+format = '[$symbol $branch]($style)(@$git_status [│](fg:#626880)) '
+
+[git_status]
+style = "fg:#e5c890"
+format = '[($all_status$ahead_behind )]($style)[│](fg:#626880) '
+
+[nodejs]
+symbol = ""
+style = "fg:#f4b8e4"
+format = '[$symbol]($style) '
+
+[c]
+symbol = " "
+style = "fg:#f4b8e4"
+format = '[$symbol]($style) '
+
+[python]
+symbol = " "
+style = "fg:#f4b8e4"
+format = '[$symbol( 🧪$virtualenv)]($style) '
+
+[java]
+symbol = " "
+style = "fg:#f4b8e4"
+format = '[$symbol]($style) '
+
+[golang]
+symbol = ""
+style = "fg:#f4b8e4"
+format = '[$symbol]($style) '
+
+[rust]
+symbol = ""
+style = "fg:#f4b8e4"
+format = '[$symbol]($style) '
+
+[time]
+disabled = false
+time_format = "%R"           # Hour:Minute Format
+style = "fg:#babbf1"
+format = '[❖ $time]($style)'
+
+[docker_context]
+disabled = false
+symbol = " "
+style = "fg:#85c1dc"
+format = '[$symbol $context]($style) '
+only_with_files = true
+detect_files = [
+  "docker-compose.yml",
+  "docker-compose.yaml",
+  "Dockerfile",
+  "dockerfile",
+]
+
+[kubernetes]
+symbol = "☸ "
+disabled = false
+style = "fg:#ca9ee6"
+format = '[☸ $context]($style) '
+
+[cmd_duration]
+style = "fg:#ef9f76"
+format = '[$duration]($style) [│](fg:#626880) '
+
+[character]
+format = "$symbol "
+success_symbol = "[❯](fg:#a6d189)"
+error_symbol = "[❯](fg:#e78284)"

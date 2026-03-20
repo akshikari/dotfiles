@@ -1,0 +1,23 @@
+{
+  "buckets": [
+    { "Name": "main" },
+    { "Name": "extras" }
+  ],
+  "apps": [
+    { "Name": "extras/wezterm" },
+    { "Name": "extras/glazewm" },
+    { "Name": "extras/yasb" },
+    { "Name": "main/git" },
+    { "Name": "main/neovim" },
+    { "Name": "main/lazygit" },
+    { "Name": "main/fzf" },
+    { "Name": "main/fd" },
+    { "Name": "main/ripgrep" },
+    { "Name": "main/zoxide" },
+    { "Name": "main/eza" },
+    { "Name": "main/bat" },
+    { "Name": "main/starship" },
+    { "Name": "main/terraform" },
+    { "Name": "main/cmake" }
+  ]
+}

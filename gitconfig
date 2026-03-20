@@ -1,0 +1,33 @@
+# Identity is not stored here — create ~/.gitconfig-personal and/or
+# ~/.gitconfig-work manually on each machine (not tracked in this repo).
+#
+# ~/.gitconfig-personal:
+#   [user]
+#     name = Abhi Kumar
+#     email = user@personal.com
+#
+# ~/.gitconfig-work:
+#   [user]
+#     name = Abhi Kumar
+#     email = abhinav@company.com
+
+[includeIf "gitdir:~/personal/"]
+	path = ~/.gitconfig-personal
+
+[includeIf "gitdir:~/work/"]
+	path = ~/.gitconfig-work
+
+[core]
+	editor = nvim
+	pager = delta
+[init]
+	defaultBranch = main
+[interactive]
+	diffFilter = delta --color-only
+[delta]
+	navigate = true
+	side-by-side = true
+[merge]
+	conflictstyle = diff3
+[diff]
+	colorMoved = default

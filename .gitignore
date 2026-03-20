@@ -1,0 +1,6 @@
+.DS_Store
+*.bak
+
+# Machine-specific git identity — create manually, never commit
+gitconfig-personal
+gitconfig-work

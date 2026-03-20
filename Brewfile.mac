@@ -1,0 +1,4 @@
+# macOS-only installs
+
+cask "wezterm"
+cask "aerospace"
