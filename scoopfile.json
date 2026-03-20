@@ -18,6 +18,7 @@
     { "Name": "main/bat" },
     { "Name": "main/starship" },
     { "Name": "main/terraform" },
-    { "Name": "main/cmake" }
+    { "Name": "main/cmake" },
+    { "Name": "gh" }
   ]
 }
