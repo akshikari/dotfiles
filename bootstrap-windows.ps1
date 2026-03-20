@@ -15,6 +15,9 @@ Write-Host "==> Adding Scoop buckets..."
 Write-Host "==> Installing Scoop packages..."
 scoop import "$HOME\dotfiles\scoopfile.json"
 
+# Disable aria2 warning
+scoop config aria2-warning-enabled false
+
 # Install WSL2 if not already present
 if (-not (Get-Command wsl -ErrorAction SilentlyContinue)) {
     Write-Host "==> Installing WSL2..."
