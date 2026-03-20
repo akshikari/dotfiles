@@ -17,7 +17,17 @@ fi
 # Install CLI tools
 echo "==> Installing Homebrew packages..."
 brew bundle --file="$HOME/dotfiles/Brewfile"
-brew install wezterm  # formula on Linux (not a cask)
+
+# Install WezTerm (skip on WSL — it runs on the Windows host there)
+if ! grep -qi microsoft /proc/version 2>/dev/null; then
+  if ! command -v wezterm &>/dev/null; then
+    echo "==> Installing WezTerm..."
+    curl -fsSL https://apt.fury.io/wezfurlong/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
+    echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wezfurlong/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
+    sudo apt-get update
+    sudo apt-get install -y wezterm
+  fi
+fi
 
 # Window manager
 # sudo apt-get install -y i3
@@ -62,7 +72,11 @@ bash "$HOME/dotfiles/setup.sh"
 # Make zsh the default shell
 if [ "$SHELL" != "$(which zsh)" ]; then
   echo "==> Setting zsh as default shell (requires password)..."
-  chsh -s "$(which zsh)"
+  ZSH_PATH="$(which zsh)"
+  if ! grep -qF "$ZSH_PATH" /etc/shells; then
+    echo "$ZSH_PATH" | sudo tee -a /etc/shells
+  fi
+  chsh -s "$ZSH_PATH"
 fi
 
 echo ""
