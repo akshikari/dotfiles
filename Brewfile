@@ -33,6 +33,7 @@ brew "uv"              # fast Python package manager
 
 # Infrastructure
 brew "terraform"
+brew "go"
 
 # Build tools
 brew "cmake"
