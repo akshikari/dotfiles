@@ -38,6 +38,21 @@ if (-not (Test-Path $nvimConfig)) {
     Write-Host "  skipped: $nvimConfig already exists"
 }
 
+# WezTerm config — hard link to dotfiles (hard link avoids admin requirement for symlinks)
+Write-Host "==> Setting up WezTerm config..."
+$weztermConfig = "$HOME\.config\wezterm\wezterm.lua"
+$weztermSource = "$HOME\dotfiles\wezterm.lua"
+$weztermDir = Split-Path $weztermConfig
+if (-not (Test-Path $weztermDir)) {
+    New-Item -ItemType Directory -Path $weztermDir -Force | Out-Null
+}
+if (-not (Test-Path $weztermConfig)) {
+    New-Item -ItemType HardLink -Path $weztermConfig -Target $weztermSource | Out-Null
+    Write-Host "  linked: $weztermConfig"
+} else {
+    Write-Host "  skipped: $weztermConfig already exists"
+}
+
 # PowerShell profile — add vim alias to both PS 5.1 and PS 7 profiles
 Write-Host "==> Setting up PowerShell profile..."
 $profiles = @(
