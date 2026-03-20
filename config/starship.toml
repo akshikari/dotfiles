@@ -3,6 +3,7 @@ add_newline = false
 
 # Increase the timeout to 1500ms
 command_timeout = 1500
+scan_timeout = 1500
 
 # Prompt format configs
 format = """
