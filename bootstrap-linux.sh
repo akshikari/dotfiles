@@ -11,7 +11,13 @@ sudo apt-get install -y curl git build-essential procps file
 if ! command -v brew &>/dev/null; then
   echo "==> Installing Homebrew..."
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+
+# Ensure brew is in PATH (handles fresh installs and re-runs before shell profile is sourced)
+if [ -f /home/linuxbrew/.linuxbrew/bin/brew ]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+elif [ -f "$HOME/.linuxbrew/bin/brew" ]; then
+  eval "$("$HOME/.linuxbrew/bin/brew" shellenv)"
 fi
 
 # Install CLI tools
@@ -22,8 +28,11 @@ brew bundle --file="$HOME/dotfiles/Brewfile"
 if ! grep -qi microsoft /proc/version 2>/dev/null; then
   if ! command -v wezterm &>/dev/null; then
     echo "==> Installing WezTerm..."
-    brew tap wezterm/wezterm-linuxbrew
-    brew install wezterm
+    curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
+    sudo chmod 644 /usr/share/keyrings/wezterm-fury.gpg
+    echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
+    sudo apt-get update
+    sudo apt-get install -y wezterm
   fi
 fi
 
@@ -74,7 +83,7 @@ if [ "$SHELL" != "$(which zsh)" ]; then
   if ! grep -qF "$ZSH_PATH" /etc/shells; then
     echo "$ZSH_PATH" | sudo tee -a /etc/shells
   fi
-  chsh -s "$ZSH_PATH"
+  sudo usermod -s "$ZSH_PATH" "$USER"
 fi
 
 echo ""

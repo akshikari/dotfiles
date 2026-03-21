@@ -55,12 +55,12 @@ else
 	config.cursor_blink_ease_in = "EaseInOut"
 	config.cursor_blink_ease_out = "EaseInOut"
 
-	config.window_decorations = "RESIZE"
+	config.window_decorations = "TITLE | RESIZE"
 	config.enable_kitty_keyboard = true
 	config.set_environment_variables = { TERM = "xterm-256color" }
 
-	-- tmux handles splits, panes, windows, sessions, and copy mode
-	config.enable_tab_bar = false
+	config.enable_tab_bar = true
+	config.hide_tab_bar_if_only_one_tab = true
 
 	config.keys = {
 		-- Quick clear (mirrors tmux C-g binding)

@@ -1,6 +1,6 @@
-# WSL doesn't always start as a login shell, so .zprofile may not be sourced.
-# Force-source it here if we're in WSL and it hasn't been loaded yet.
-if [[ -n "$WSL_DISTRO_NAME" && -z "$ZPROFILE_LOADED" ]]; then
+# Linux terminals often don't start login shells, so .zprofile may not be sourced.
+# Force-source it here if we're on Linux and it hasn't been loaded yet.
+if [[ "$(uname)" == "Linux" && -z "$ZPROFILE_LOADED" ]]; then
   source "$HOME/.zprofile"
 fi
 
