@@ -22,10 +22,8 @@ brew bundle --file="$HOME/dotfiles/Brewfile"
 if ! grep -qi microsoft /proc/version 2>/dev/null; then
   if ! command -v wezterm &>/dev/null; then
     echo "==> Installing WezTerm..."
-    curl -fsSL https://apt.fury.io/wezfurlong/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
-    echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wezfurlong/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
-    sudo apt-get update
-    sudo apt-get install -y wezterm
+    brew tap wezterm/wezterm-linuxbrew
+    brew install wezterm
   fi
 fi
 

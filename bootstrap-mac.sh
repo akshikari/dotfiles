@@ -15,6 +15,12 @@ echo "==> Installing Homebrew packages..."
 brew bundle --file="$HOME/dotfiles/Brewfile"
 brew bundle --file="$HOME/dotfiles/Brewfile.mac"
 
+# Install WezTerm
+if ! command -v wezterm &>/dev/null; then
+  echo "==> Installing WezTerm..."
+  brew install --cask wezterm
+fi
+
 # Install oh-my-zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   echo "==> Installing oh-my-zsh..."
