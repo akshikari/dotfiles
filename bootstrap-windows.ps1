@@ -53,6 +53,38 @@ if (-not (Test-Path $weztermConfig)) {
     Write-Host "  skipped: $weztermConfig already exists"
 }
 
+# GlazeWM config — hard link to dotfiles
+Write-Host "==> Setting up GlazeWM config..."
+$glazeConfig = "$HOME\.glzr\glazewm\config.yaml"
+$glazeSource = "$HOME\dotfiles\config\glazewm\config.yaml"
+$glazeDir = Split-Path $glazeConfig
+if (-not (Test-Path $glazeDir)) {
+    New-Item -ItemType Directory -Path $glazeDir -Force | Out-Null
+}
+if (-not (Test-Path $glazeConfig)) {
+    New-Item -ItemType HardLink -Path $glazeConfig -Target $glazeSource | Out-Null
+    Write-Host "  linked: $glazeConfig"
+} else {
+    Write-Host "  skipped: $glazeConfig already exists"
+}
+
+# YASB config — hard link to dotfiles
+Write-Host "==> Setting up YASB config..."
+$yasbDir = "$HOME\.config\yasb"
+if (-not (Test-Path $yasbDir)) {
+    New-Item -ItemType Directory -Path $yasbDir -Force | Out-Null
+}
+foreach ($file in @("config.yaml", "styles.css")) {
+    $target = "$yasbDir\$file"
+    $source = "$HOME\dotfiles\config\yasb\$file"
+    if (-not (Test-Path $target)) {
+        New-Item -ItemType HardLink -Path $target -Target $source | Out-Null
+        Write-Host "  linked: $target"
+    } else {
+        Write-Host "  skipped: $target already exists"
+    }
+}
+
 # PowerShell profile — add vim alias to both PS 5.1 and PS 7 profiles
 Write-Host "==> Setting up PowerShell profile..."
 $profiles = @(

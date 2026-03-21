@@ -1,0 +1,449 @@
+general:
+  # Commands to run when the WM has started. This is useful for running a
+  # script or launching another application.
+  # Example: The below command launches Zebar.
+  startup_commands: []
+
+  # Commands to run just before the WM is shutdown.
+  # Example: The below command kills Zebar.
+  shutdown_commands: []
+
+  # Commands to run after the WM config is reloaded.
+  config_reload_commands: []
+
+  # Whether to automatically focus windows underneath the cursor.
+  focus_follows_cursor: false
+
+  # Whether to switch back and forth between the previously focused
+  # workspace when focusing the current workspace.
+  toggle_workspace_on_refocus: true
+
+  cursor_jump:
+    # Whether to automatically move the cursor on the specified trigger.
+    enabled: true
+
+    # Trigger for cursor jump:
+    # - 'monitor_focus': Jump when focus changes between monitors.
+    # - 'window_focus': Jump when focus changes between windows.
+    trigger: 'monitor_focus'
+
+  # How windows should be hidden when switching workspaces.
+  # - 'cloak': (Windows-only) Recommended option for Windows.
+  # - 'hide': (Windows-only) Legacy option for Windows. Has stability issues with some apps.
+  # - 'place_in_corner': Artifically hides the window by placing it in the corner of the
+  #   monitor. On macOS, this is always used instead of cloak/hide.
+  hide_method: 'place_in_corner'
+
+  # Affects which windows get shown in the native Windows taskbar. Has no
+  # effect if `hide_method: 'hide'`.
+  # - 'true': Show all windows (regardless of workspace).
+  # - 'false': Only show windows from the currently shown workspaces.
+  show_all_in_taskbar: true
+
+gaps:
+  # Whether to scale the gaps with the DPI of the monitor.
+  scale_with_dpi: true
+
+  # Gap between adjacent windows.
+  inner_gap: '5px'
+
+  # Gap between windows and the screen edge.
+  outer_gap:
+    top: '5px'
+    right: '5px'
+    bottom: '5px'
+    left: '5px'
+
+window_effects:
+  # Visual effects to apply to the focused window.
+  focused_window:
+    # Highlight the window with a colored border.
+    # ** Exclusive to Windows 11 due to API limitations.
+    border:
+      enabled: true
+      color: '#e1e3e4'
+
+    # Remove the title bar from the window's frame. Note that this can
+    # cause rendering issues for some applications.
+    hide_title_bar:
+      enabled: false
+
+    # Change the corner style of the window's frame.
+    # ** Exclusive to Windows 11 due to API limitations.
+    corner_style:
+      enabled: false
+      # Allowed values: 'square', 'rounded', 'small_rounded'.
+      style: 'small_rounded'
+
+    # Change the transparency of the window.
+    transparency:
+      enabled: false
+      # Can be something like '95%' or '0.95' for slightly transparent windows.
+      # '0' or '0%' is fully transparent (and, by consequence, unfocusable).
+      opacity: '95%'
+
+  # Visual effects to apply to non-focused windows.
+  other_windows:
+    border:
+      enabled: true
+      color: '#494d64'
+    hide_title_bar:
+      enabled: false
+    corner_style:
+      enabled: false
+      style: 'small_rounded'
+    transparency:
+      enabled: true
+      opacity: '95%'
+
+window_behavior:
+  # New windows are created in this state whenever possible.
+  # Allowed values: 'tiling', 'floating'.
+  initial_state: 'tiling'
+
+  # Sets the default options for when a new window is created. This also
+  # changes the defaults for when the state change commands, like
+  # `set-floating`, are used without any flags.
+  state_defaults:
+    floating:
+      # Whether to center floating windows by default.
+      centered: true
+
+      # Whether to show floating windows as always on top.
+      shown_on_top: false
+
+    fullscreen:
+      # Maximize the window if possible. If the window doesn't have a
+      # maximize button, then it'll be fullscreen'ed normally instead.
+      maximized: false
+
+      # Whether to show fullscreen windows as always on top.
+      shown_on_top: false
+
+workspaces:
+  - name: '1'
+    bind_to_monitor: 0
+  - name: '2'
+    bind_to_monitor: 1
+  - name: '3'
+    bind_to_monitor: 0
+  - name: '4'
+    bind_to_monitor: 1
+  - name: '5'
+    bind_to_monitor: 0
+  - name: '6'
+    bind_to_monitor: 1
+  - name: '7'
+    bind_to_monitor: 0
+  - name: '8'
+    bind_to_monitor: 1
+  - name: '9'
+    bind_to_monitor: 0
+  - name: 'A'
+  - name: 'B'
+    display_name: 'Browser'
+  - name: 'C'
+    display_name: 'Chat'
+    bind_to_monitor: 1
+  - name: 'D'
+    display_name: 'Dev'
+    bind_to_monitor: 0
+  - name: 'E'
+  - name: 'G'
+    display_name: 'Gaming'
+    bind_to_monitor: 0
+  - name: 'I'
+  - name: 'M'
+    display_name: 'Music'
+    bind_to_monitor: 1
+  - name: 'N'
+    display_name: 'Notes'
+  - name: 'O'
+  - name: 'P'
+  - name: 'Q'
+  - name: 'R'
+  - name: 'S'
+  - name: 'T'
+    display_name: 'Terminal'
+    bind_to_monitor: 0
+  - name: 'U'
+  - name: 'V'
+  - name: 'W'
+  - name: 'Y'
+  - name: 'Z'
+
+
+window_rules:
+  - commands: ['move --workspace T', 'focus --workspace T']
+    match:
+      - window_process: { regex: "(?i)terminal|wezterm|wezterm-gui"}
+  - commands: ['move --workspace B', 'focus --workspace B']
+    match:
+      - window_process: { regex: "(?i)chrome|msedge|brave|firefox"}
+  - commands: ['move --workspace C', 'focus --workspace C']
+    match:
+      - window_process: { regex: "(?i)signal|discord|whatsapp|telegram"}
+  - commands: ['move --workspace G', 'focus --workspace G']
+    match:
+      - window_process: { regex: "(?i)steam"}
+  - commands: ['move --workspace M', 'focus --workspace M']
+    match:
+      - window_process: { regex: "(?i)spotify"}
+  - commands: ['move --workspace N', 'focus --workspace N']
+    match:
+      - window_process: { regex: "(?i)notion|anytype|obsidian"}
+  - commands: ['move --workspace D', 'focus --workspace D']
+    match:
+      - window_process: { regex: "Code"}
+  - commands: ['ignore']
+    match:
+      # Ignores any Zebar windows.
+      - window_process: { equals: 'zebar' }
+
+      # Ignores picture-in-picture windows for browsers.
+      - window_title: { regex: '[Pp]icture.in.[Pp]icture' }
+        window_class: { regex: 'Chrome_WidgetWin_1|MozillaDialogClass' }
+
+      # Ignore rules for various 3rd-party apps.
+      - window_process: { equals: 'PowerToys' }
+        window_class: { regex: 'HwndWrapper\[PowerToys\.PowerAccent.*?\]' }
+      - window_title: { equals: 'Command Palette' }
+        window_class: { equals: 'WinUIDesktopWin32WindowClass' }
+      - window_process: { equals: 'PowerToys' }
+        window_title: { regex: '.*? - Peek' }
+      - window_process: { equals: 'Lively' }
+        window_class: { regex: 'HwndWrapper' }
+      - window_process: { equals: 'EXCEL' }
+        window_class: { not_regex: 'XLMAIN' }
+      - window_process: { equals: 'WINWORD' }
+        window_class: { not_regex: 'OpusApp' }
+      - window_process: { equals: 'POWERPNT' }
+        window_class: { not_regex: 'PPTFrameClass' }
+
+binding_modes:
+  - name: 'service'
+    keybindings:
+      # Reload config
+      - commands: ['wm-reload-config', 'wm-disable-binding-mode --name service']
+        bindings: ['escape', 'r']
+      # Toggle floating/tiling
+      - commands: ['toggle-floating', 'wm-disable-binding-mode --name service']
+        bindings: ['f']
+      # Redraw all windows (closest to AeroSpace's close-all-but-current reset)
+      - commands: ['wm-redraw', 'wm-disable-binding-mode --name service']
+        bindings: ['backspace']
+      # Join with direction (equivalent to AeroSpace's join-with)
+      - commands: ['move --direction left', 'wm-disable-binding-mode --name service']
+        bindings: ['alt+shift+h']
+      - commands: ['move --direction down', 'wm-disable-binding-mode --name service']
+        bindings: ['alt+shift+j']
+      - commands: ['move --direction up', 'wm-disable-binding-mode --name service']
+        bindings: ['alt+shift+k']
+      - commands: ['move --direction right', 'wm-disable-binding-mode --name service']
+        bindings: ['alt+shift+l']
+
+keybindings:
+  # Shift focus in a given direction.
+  - commands: ['focus --direction left']
+    bindings: ['alt+h', 'alt+left']
+  - commands: ['focus --direction right']
+    bindings: ['alt+l', 'alt+right']
+  - commands: ['focus --direction up']
+    bindings: ['alt+k', 'alt+up']
+  - commands: ['focus --direction down']
+    bindings: ['alt+j', 'alt+down']
+
+  # Move focused window in a given direction.
+  - commands: ['move --direction left']
+    bindings: ['alt+shift+h', 'alt+shift+left']
+  - commands: ['move --direction right']
+    bindings: ['alt+shift+l', 'alt+shift+right']
+  - commands: ['move --direction up']
+    bindings: ['alt+shift+k', 'alt+shift+up']
+  - commands: ['move --direction down']
+    bindings: ['alt+shift+j', 'alt+shift+down']
+ 
+  # Resize (matching AeroSpace alt+shift+minus/equal)
+  - commands: ['resize --width -50']
+    bindings: ['alt+shift+-']
+  - commands: ['resize --width +50']
+    bindings: ['alt+shift+=']
+
+
+  # --- Layout toggles ---
+  - commands: ['toggle-tiling-direction']
+    bindings: ['alt+/']
+  - commands: ['toggle-tiling']
+    bindings: ['alt+,']
+
+  # Change the focused window to be floating.
+  - commands: ['toggle-floating --centered']
+    bindings: ['alt+shift+space']
+
+
+  # Change the focused window to be fullscreen.
+  - commands: ['toggle-fullscreen']
+    bindings: ['alt+f']
+
+  # Minimize focused window.
+  - commands: ['toggle-minimized']
+    bindings: ['alt+.']
+
+  # Close focused window.
+  - commands: ['close']
+    bindings: ['alt+x']
+
+  # Kill GlazeWM process safely.
+  - commands: ['wm-exit']
+    bindings: ['alt+shift+`']
+
+
+  # --- Launch WezTerm on workspace T ---
+  - commands: ['focus --workspace T', 'shell-exec wezterm-gui']
+    bindings: ['alt+enter']
+
+  # Focus the workspace that last had focus.
+  - commands: ['focus --recent-workspace']
+    bindings: ['alt+ctrl+[']
+
+  # Exit GlazeWM
+  - commands: ['wm-exit']
+    bindings: ['alt+shift+0']
+
+  # --- Service mode ---
+  - commands: ['wm-enable-binding-mode --name service']
+    bindings: ['alt+shift+;']
+
+  # Change focus to a workspace defined in `workspaces` config.
+  - commands: ['focus --workspace 1']
+    bindings: ['alt+1']
+  - commands: ['focus --workspace 2']
+    bindings: ['alt+2']
+  - commands: ['focus --workspace 3']
+    bindings: ['alt+3']
+  - commands: ['focus --workspace 4']
+    bindings: ['alt+4']
+  - commands: ['focus --workspace 5']
+    bindings: ['alt+5']
+  - commands: ['focus --workspace 6']
+    bindings: ['alt+6']
+  - commands: ['focus --workspace 7']
+    bindings: ['alt+7']
+  - commands: ['focus --workspace 8']
+    bindings: ['alt+8']
+  - commands: ['focus --workspace 9']
+    bindings: ['alt+9']
+  - commands: ['focus --workspace A']
+    bindings: ['alt+a']
+  - commands: ['focus --workspace B']
+    bindings: ['alt+b']
+  - commands: ['focus --workspace C']
+    bindings: ['alt+c']
+  - commands: ['focus --workspace D']
+    bindings: ['alt+d']
+  - commands: ['focus --workspace E']
+    bindings: ['alt+e']
+  - commands: ['focus --workspace G']
+    bindings: ['alt+g']
+  - commands: ['focus --workspace I']
+    bindings: ['alt+i']
+  - commands: ['focus --workspace M']
+    bindings: ['alt+m']
+  - commands: ['focus --workspace N']
+    bindings: ['alt+n']
+  - commands: ['focus --workspace O']
+    bindings: ['alt+o']
+  - commands: ['focus --workspace P']
+    bindings: ['alt+p']
+  - commands: ['focus --workspace Q']
+    bindings: ['alt+q']
+  - commands: ['focus --workspace R']
+    bindings: ['alt+r']
+  - commands: ['focus --workspace S']
+    bindings: ['alt+s']
+  - commands: ['focus --workspace T']
+    bindings: ['alt+t']
+  - commands: ['focus --workspace U']
+    bindings: ['alt+u']
+  - commands: ['focus --workspace V']
+    bindings: ['alt+v']
+  - commands: ['focus --workspace W']
+    bindings: ['alt+w']
+  - commands: ['focus --workspace Y']
+    bindings: ['alt+y']
+  - commands: ['focus --workspace Z']
+    bindings: ['alt+z']
+
+
+  # --- Move window to number workspaces ---
+  - commands: ['move --workspace 1']
+    bindings: ['alt+shift+1']
+  - commands: ['move --workspace 2']
+    bindings: ['alt+shift+2']
+  - commands: ['move --workspace 3']
+    bindings: ['alt+shift+3']
+  - commands: ['move --workspace 4']
+    bindings: ['alt+shift+4']
+  - commands: ['move --workspace 5']
+    bindings: ['alt+shift+5']
+  - commands: ['move --workspace 6']
+    bindings: ['alt+shift+6']
+  - commands: ['move --workspace 7']
+    bindings: ['alt+shift+7']
+  - commands: ['move --workspace 8']
+    bindings: ['alt+shift+8']
+  - commands: ['move --workspace 9']
+    bindings: ['alt+shift+9']
+
+  # --- Move window to letter workspaces ---
+  - commands: ['move --workspace A']
+    bindings: ['alt+shift+a']
+  - commands: ['move --workspace B']
+    bindings: ['alt+shift+b']
+  - commands: ['move --workspace C']
+    bindings: ['alt+shift+c']
+  - commands: ['move --workspace D']
+    bindings: ['alt+shift+d']
+  - commands: ['move --workspace E']
+    bindings: ['alt+shift+e']
+  - commands: ['move --workspace G']
+    bindings: ['alt+shift+g']
+  - commands: ['move --workspace I']
+    bindings: ['alt+shift+i']
+  - commands: ['move --workspace M']
+    bindings: ['alt+shift+m']
+  - commands: ['move --workspace N']
+    bindings: ['alt+shift+n']
+  - commands: ['move --workspace O']
+    bindings: ['alt+shift+o']
+  - commands: ['move --workspace P']
+    bindings: ['alt+shift+p']
+  - commands: ['move --workspace Q']
+    bindings: ['alt+shift+q']
+  - commands: ['move --workspace R']
+    bindings: ['alt+shift+r']
+  - commands: ['move --workspace S']
+    bindings: ['alt+shift+s']
+  - commands: ['move --workspace T']
+    bindings: ['alt+shift+t']
+  - commands: ['move --workspace U']
+    bindings: ['alt+shift+u']
+  - commands: ['move --workspace V']
+    bindings: ['alt+shift+v']
+  - commands: ['move --workspace W']
+    bindings: ['alt+shift+w']
+  - commands: ['move --workspace Y']
+    bindings: ['alt+shift+y']
+  - commands: ['move --workspace Z']
+    bindings: ['alt+shift+z']
+
+  # Move the focused window's parent workspace to a monitor in a given
+  # direction.
+  - commands: ['move-workspace --direction left']
+    bindings: ['alt+shift+ctrl+a']
+  - commands: ['move-workspace --direction right']
+    bindings: ['alt+shift+ctrl+f']
+  - commands: ['move-workspace --direction up']
+    bindings: ['alt+shift+ctrl+d']
+  - commands: ['move-workspace --direction down']
+    bindings: ['alt+shift+ctrl+s']
