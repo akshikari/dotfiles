@@ -2,6 +2,7 @@
 local wezterm = require("wezterm")
 local act = wezterm.action
 local is_windows = wezterm.target_triple:find("windows") ~= nil
+local is_linux = wezterm.target_triple:find("linux") ~= nil
 
 local config = wezterm.config_builder()
 
@@ -55,12 +56,18 @@ else
 	config.cursor_blink_ease_in = "EaseInOut"
 	config.cursor_blink_ease_out = "EaseInOut"
 
-	config.window_decorations = "TITLE | RESIZE"
+	if is_linux then
+		config.window_decorations = "INTEGRATED_BUTTONS|RESIZE"
+		config.integrated_title_button_style = "Gnome"
+		config.hide_tab_bar_if_only_one_tab = false
+	else
+		config.window_decorations = "TITLE | RESIZE"
+		config.hide_tab_bar_if_only_one_tab = true
+	end
 	config.enable_kitty_keyboard = true
 	config.set_environment_variables = { TERM = "xterm-256color" }
 
 	config.enable_tab_bar = true
-	config.hide_tab_bar_if_only_one_tab = true
 
 	config.keys = {
 		-- Quick clear (mirrors tmux C-g binding)
