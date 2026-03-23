@@ -162,9 +162,6 @@ alias lst="ls --tree --level=3"
 alias lsta="ls -I='' -a --tree --level=3"
 alias lsa="ls -a"
 
-# zoxide
-eval "$(zoxide init --cmd cd zsh)"
-
 # lazygit
 alias lg="lazygit"
 
@@ -181,3 +178,6 @@ if [ -d "$HOME/.docker/completions" ]; then
   autoload -Uz compinit
   compinit
 fi
+
+# zoxide (must be last)
+eval "$(zoxide init --cmd cd zsh)"
