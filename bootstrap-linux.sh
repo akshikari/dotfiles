@@ -36,9 +36,51 @@ if ! grep -qi microsoft /proc/version 2>/dev/null; then
   fi
 fi
 
-# Window manager
-# sudo apt-get install -y i3
-# sudo apt-get install -y hyprland
+# Install Hyprland and companion tools (skip on WSL)
+if ! grep -qi microsoft /proc/version 2>/dev/null; then
+  echo "==> Installing Hyprland stack..."
+
+  # Add cppiber PPA for up-to-date Hyprland packages
+  sudo add-apt-repository -y ppa:cppiber/hyprland
+  sudo apt-get update
+
+  # Hyprland core
+  sudo apt-get install -y \
+    hyprland \
+    xdg-desktop-portal-hyprland \
+    xdg-desktop-portal-gtk \
+    hypridle \
+    hyprlock \
+    hyprsunset
+
+  # Companion tools
+  sudo apt-get install -y \
+    waybar \
+    sway-notification-center \
+    wl-clipboard \
+    cliphist \
+    grim \
+    slurp \
+    swappy \
+    playerctl \
+    pavucontrol \
+    polkit-kde-agent-1 \
+    rofi \
+    network-manager-gnome \
+    blueman \
+    gnome-keyring \
+    thunar \
+    btop
+
+  # Install swww (wallpaper daemon) from GitHub releases
+  if ! command -v swww &>/dev/null; then
+    echo "==> Installing swww..."
+    SWWW_VER=$(curl -s https://api.github.com/repos/LGFae/swww/releases/latest | grep '"tag_name"' | cut -d'"' -f4)
+    curl -sSL "https://github.com/LGFae/swww/releases/download/${SWWW_VER}/swww-x86_64-unknown-linux-musl.tar.gz" \
+      | tar -xz -C /tmp swww swww-daemon
+    sudo mv /tmp/swww /tmp/swww-daemon /usr/local/bin/
+  fi
+fi
 
 # Install oh-my-zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
