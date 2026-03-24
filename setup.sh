@@ -41,12 +41,5 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
   link "$DOTFILES/config/aerospace" "$CONFIG/aerospace"
 fi
 
-# Linux-only
-if [[ "$(uname -s)" == "Linux" ]]; then
-  link "$DOTFILES/config/hypr"    "$CONFIG/hypr"
-  link "$DOTFILES/config/waybar"  "$CONFIG/waybar"
-  link "$DOTFILES/config/rofi"    "$CONFIG/rofi"
-  link "$DOTFILES/config/swaync"  "$CONFIG/swaync"
-fi
 
 echo "==> Done!"
