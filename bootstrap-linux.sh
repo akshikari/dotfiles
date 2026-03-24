@@ -3,6 +3,13 @@ set -e
 
 echo "==> Bootstrapping Linux dev environment..."
 
+# Detect environment — used to skip desktop/GUI installs in WSL
+if grep -qi microsoft /proc/version 2>/dev/null; then
+  IS_WSL=true
+else
+  IS_WSL=false
+fi
+
 # System prerequisites
 sudo apt-get update
 sudo apt-get install -y curl git build-essential procps file
@@ -31,15 +38,39 @@ if ! command -v cargo &>/dev/null; then
 fi
 source "$HOME/.cargo/env" 2>/dev/null || true
 
-# Install WezTerm (skip on WSL — it runs on the Windows host there)
-if ! grep -qi microsoft /proc/version 2>/dev/null; then
-  if ! command -v wezterm &>/dev/null; then
-    echo "==> Installing WezTerm..."
-    curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
-    sudo chmod 644 /usr/share/keyrings/wezterm-fury.gpg
-    echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
+# Desktop environment — skip entirely on WSL
+if [ "$IS_WSL" = false ]; then
+  # Hyprland and Wayland desktop components
+  if ! command -v hyprland &>/dev/null; then
+    echo "==> Adding Hyprland PPA (community-maintained, tracks latest releases)..."
+    sudo add-apt-repository -y ppa:cppiber/hyprland
     sudo apt-get update
-    sudo apt-get install -y wezterm
+    echo "==> Installing Hyprland and desktop components..."
+    sudo apt-get install -y \
+      hyprland \
+      waybar \
+      wofi \
+      dunst \
+      network-manager-gnome \
+      blueman \
+      xdg-desktop-portal-hyprland \
+      xdg-desktop-portal-gtk \
+      policykit-1-gnome \
+      grim \
+      slurp \
+      wl-clipboard \
+      pavucontrol \
+      hyprlock \
+      hypridle \
+      playerctl
+  fi
+
+  # Ghostty terminal (PPA — officially endorsed by Ghostty project)
+  if ! command -v ghostty &>/dev/null; then
+    echo "==> Installing Ghostty..."
+    sudo add-apt-repository -y ppa:mkasberg/ghostty-ubuntu
+    sudo apt-get update
+    sudo apt-get install -y ghostty
   fi
 fi
 

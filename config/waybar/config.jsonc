@@ -1,0 +1,56 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "spacing": 4,
+
+    "modules-left":   ["hyprland/workspaces"],
+    "modules-center": ["clock"],
+    "modules-right":  ["idle_inhibitor", "pulseaudio", "network", "tray", "custom/power"],
+
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "on-click": "activate",
+        "all-outputs": false,
+        "sort-by-number": true
+    },
+
+    "clock": {
+        "format": "{:%a %b %d  %I:%M %p}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+
+    "pulseaudio": {
+        "format": "  {volume}%",
+        "format-muted": "  muted",
+        "on-click": "pavucontrol"
+    },
+
+    "network": {
+        "format-wifi":        "  {essid}",
+        "format-ethernet":    "  {ipaddr}",
+        "format-disconnected": "  disconnected",
+        "tooltip-format": "{ifname}: {ipaddr}/{cidr}",
+        "on-click": "nm-connection-editor"
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󰒳 ON",
+            "deactivated": "󰒲"
+        },
+        "tooltip-format-activated": "Idle inhibitor active — screen won't lock",
+        "tooltip-format-deactivated": "Idle inhibitor off"
+    },
+
+    "tray": {
+        "spacing": 8
+    },
+
+    "custom/power": {
+        "format": "⏻",
+        "on-click": "~/.config/hypr/scripts/power-menu.sh",
+        "tooltip": false
+    }
+}

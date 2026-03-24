@@ -41,5 +41,12 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
   link "$DOTFILES/config/aerospace" "$CONFIG/aerospace"
 fi
 
+# Linux (native only, not WSL)
+if [[ "$(uname -s)" == "Linux" ]] && ! grep -qi microsoft /proc/version 2>/dev/null; then
+  link "$DOTFILES/config/hypr"    "$CONFIG/hypr"
+  link "$DOTFILES/config/waybar"  "$CONFIG/waybar"
+  link "$DOTFILES/config/wofi"    "$CONFIG/wofi"
+fi
+
 
 echo "==> Done!"
