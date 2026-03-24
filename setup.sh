@@ -4,11 +4,16 @@ set -e
 DOTFILES="$HOME/dotfiles"
 CONFIG="$HOME/.config"
 
-# Creates a symlink, backing up any existing non-symlink file
+# Creates a symlink, backing up any existing non-symlink file.
+# Removes existing symlinks first — ln -sf behaves unexpectedly when the
+# destination is already a symlink pointing to a directory (places the new
+# symlink inside it instead of replacing it).
 link() {
   local src="$1" dst="$2"
   mkdir -p "$(dirname "$dst")"
-  if [ -e "$dst" ] && [ ! -L "$dst" ]; then
+  if [ -L "$dst" ]; then
+    rm "$dst"
+  elif [ -e "$dst" ]; then
     echo "  backing up: $dst → $dst.bak"
     mv "$dst" "$dst.bak"
   fi
