@@ -4,19 +4,23 @@ Personal dev environment configuration for macOS, Linux, and Windows (WSL).
 
 ## What's included
 
-| File/Dir               | Target                              |
-| ---------------------- | ----------------------------------- |
-| `zshrc`                | `~/.zshrc`                          |
-| `zshenv`               | `~/.zshenv`                         |
-| `zprofile`             | `~/.zprofile`                       |
-| `tmux.conf`            | `~/.tmux.conf`                      |
-| `wezterm.lua`          | `~/.wezterm.lua`                    |
-| `gitconfig`            | `~/.gitconfig`                      |
-| `config/nvim/`         | `~/.config/nvim/`                   |
-| `config/starship.toml` | `~/.config/starship.toml`           |
-| `config/aerospace/`    | `~/.config/aerospace/` (macOS only) |
-| `config/lazygit/`      | `~/.config/lazygit/`                |
-| `config/bat/`          | `~/.config/bat/`                    |
+| File/Dir               | Target                                        | Platform        |
+| ---------------------- | --------------------------------------------- | --------------- |
+| `zshrc`                | `~/.zshrc`                                    | all             |
+| `zshenv`               | `~/.zshenv`                                   | all             |
+| `zprofile`             | `~/.zprofile`                                 | all             |
+| `tmux.conf`            | `~/.tmux.conf`                                | all             |
+| `wezterm.lua`          | `~/.wezterm.lua`                              | all             |
+| `gitconfig`            | `~/.gitconfig`                                | all             |
+| `config/nvim/`         | `~/.config/nvim/`                             | all             |
+| `config/starship.toml` | `~/.config/starship.toml`                     | all             |
+| `config/lazygit/`      | `~/.config/lazygit/`                          | all             |
+| `config/bat/`          | `~/.config/bat/`                              | all             |
+| `config/ghostty/`      | `~/.config/ghostty/`                          | macOS + Linux   |
+| `config/aerospace/`    | `~/.config/aerospace/`                        | macOS only      |
+| `config/hypr/`         | `~/.config/hypr/`                             | Linux only      |
+| `config/waybar/`       | `~/.config/waybar/`                           | Linux only      |
+| `config/wofi/`         | `~/.config/wofi/`                             | Linux only      |
 
 All configs are managed as symlinks back to this repo via `setup.sh`. Edit files here — changes are immediately live.
 
@@ -63,20 +67,58 @@ This will:
 
 1. Install system prerequisites via `apt`
 2. Install Homebrew (Linuxbrew)
-3. Install all CLI tools via `Brewfile` + WezTerm
-4. Install oh-my-zsh and zsh plugins
-5. Install nvm, fzf-git.sh, and Google Cloud SDK
-6. Create all symlinks via `setup.sh`
-7. Set zsh as the default shell (`chsh`)
+3. Install all CLI tools via `Brewfile`
+4. Install Hyprland + Wayland components and Ghostty (skipped on WSL)
+5. Install oh-my-zsh and zsh plugins
+6. Install nvm, fzf-git.sh, and Google Cloud SDK
+7. Create all symlinks via `setup.sh`
+8. Set zsh as the default shell (`chsh`)
 
-> **WSL note:** The bootstrap script handles the case where WSL doesn't start as a login shell. `.zprofile` is force-sourced from `.zshrc` when running in WSL.
+> **WSL:** Desktop installs (Hyprland, Ghostty, Wayland tooling) are automatically skipped. `.zprofile` is force-sourced from `.zshrc` when running in WSL.
 
 ### Window management
 
-Uncomment your preferred WM in `bootstrap-linux.sh` before running:
+[Hyprland](https://hyprland.org) is installed automatically on non-WSL Ubuntu. Config lives in `~/.config/hypr/` (symlinked from `config/hypr/`).
 
-- **i3** — X11 environments
-- **Hyprland** — Wayland environments (recommended for new Ubuntu setups)
+Workspace layout mirrors the macOS AeroSpace config — same letter/number scheme, same keybindings (`alt+<key>` to switch, `alt+shift+<key>` to move windows).
+
+#### NVIDIA suspend fix (post-bootstrap, NVIDIA GPUs only)
+
+Hyprland loses its GPU connection if the compositor is still running when the NVIDIA driver suspends. Fix with two systemd units that freeze/thaw Hyprland around suspend:
+
+```bash
+sudo tee /etc/systemd/system/hyprland-suspend.service << 'EOF'
+[Unit]
+Description=Freeze Hyprland before NVIDIA suspend
+Before=sleep.target
+Before=nvidia-suspend.service
+
+[Service]
+Type=oneshot
+ExecStart=/home/$USER/.config/hypr/scripts/nvidia-suspend.sh suspend
+
+[Install]
+WantedBy=sleep.target
+EOF
+
+sudo tee /etc/systemd/system/hyprland-resume.service << 'EOF'
+[Unit]
+Description=Unfreeze Hyprland after NVIDIA resume
+After=nvidia-resume.service
+
+[Service]
+Type=oneshot
+ExecStart=/home/$USER/.config/hypr/scripts/nvidia-suspend.sh resume
+
+[Install]
+WantedBy=sleep.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable hyprland-suspend.service hyprland-resume.service
+```
+
+> Do **not** use `--now` — these services must only run on suspend/resume events, not on demand.
 
 ---
 
