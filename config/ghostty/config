@@ -1,5 +1,5 @@
 theme = Catppuccin Frappe
-audible-bell = false
+bell-features =
 cursor-style = block
 cursor-style-blink = true
 
