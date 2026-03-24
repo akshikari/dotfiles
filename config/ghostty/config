@@ -1,0 +1,7 @@
+theme = catppuccin-frappe
+audible-bell = false
+cursor-style = block
+cursor-style-blink = true
+
+# On Hyprland the compositor manages decorations — comment out on macOS
+window-decoration = false

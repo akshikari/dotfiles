@@ -46,6 +46,11 @@ if [[ "$(uname -s)" == "Darwin" ]]; then
   link "$DOTFILES/config/aerospace" "$CONFIG/aerospace"
 fi
 
+# Ghostty (macOS + Linux)
+if [[ "$(uname -s)" == "Darwin" ]] || { [[ "$(uname -s)" == "Linux" ]] && ! grep -qi microsoft /proc/version 2>/dev/null; }; then
+  link "$DOTFILES/config/ghostty" "$CONFIG/ghostty"
+fi
+
 # Linux (native only, not WSL)
 if [[ "$(uname -s)" == "Linux" ]] && ! grep -qi microsoft /proc/version 2>/dev/null; then
   link "$DOTFILES/config/hypr"    "$CONFIG/hypr"
