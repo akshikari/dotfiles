@@ -1,7 +1,8 @@
 theme = Catppuccin Frappe
-bell-features =
 cursor-style = block
-cursor-style-blink = true
+cursor-style-blink = false
+shell-integration-features = no-cursor
+bell-features =
 
 # On Hyprland the compositor manages decorations — comment out on macOS
 window-decoration = false
