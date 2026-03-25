@@ -62,6 +62,7 @@ if [ "$IS_WSL" = false ]; then
       pavucontrol \
       hyprlock \
       hypridle \
+      hyprpaper \
       playerctl \
       cliphist
   fi
