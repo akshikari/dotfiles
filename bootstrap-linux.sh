@@ -62,7 +62,8 @@ if [ "$IS_WSL" = false ]; then
       pavucontrol \
       hyprlock \
       hypridle \
-      playerctl
+      playerctl \
+      cliphist
   fi
 
   # Ghostty terminal (PPA — officially endorsed by Ghostty project)
