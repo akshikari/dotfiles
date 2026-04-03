@@ -12,6 +12,6 @@ case "$chosen" in
   *"Shut Down"*)  systemctl poweroff ;;
   *"Restart"*)    systemctl reboot ;;
   *"Suspend"*)    systemctl suspend ;;
-*"Log Out"*)    hyprctl dispatch exit ;;
+  *"Log Out"*)    hyprctl dispatch exit ;;
   *"Lock"*)       loginctl lock-session ;;
 esac
