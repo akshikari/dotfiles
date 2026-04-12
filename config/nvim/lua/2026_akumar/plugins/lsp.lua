@@ -117,7 +117,28 @@ return {
         html = {}, -- HTML language server
         cssls = {}, -- CSS language server
         marksman = {}, -- Markdown language server
-        ruff = {}, -- Python linter/fixer LSP
+        ruff = { -- Python linter/fixer LSP (diagnostics only)
+          on_attach = function(client)
+            -- Let basedpyright handle hover; ruff's hover is less useful
+            client.server_capabilities.hoverProvider = false
+          end,
+        },
+        basedpyright = { -- Python LSP for navigation (go-to-def, references, etc.)
+          settings = {
+            basedpyright = {
+              analysis = {
+                typeCheckingMode = 'off', -- disable all type-checking diagnostics
+                diagnosticMode = 'openFilesOnly',
+                useLibraryCodeForTypes = true,
+                autoImportCompletions = true,
+              },
+            },
+          },
+          -- Suppress all diagnostics from basedpyright; ruff handles those
+          handlers = {
+            ['textDocument/publishDiagnostics'] = function() end,
+          },
+        },
         ts_ls = {}, -- TypeScript language server
         lua_ls = { -- Lua language server
           settings = {
@@ -133,6 +154,7 @@ return {
 
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
+        'basedpyright', -- Python navigation LSP
         'stylua', -- Lua formatter
         'clang-format', -- C/C++ Formatter
         'prettier', -- TypeScript, JavaScript, Markdown, HTML, CSS Formatter
