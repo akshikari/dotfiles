@@ -19,7 +19,7 @@ $python\
 $rust\
 $golang\
 $php\
-$character\
+$character \
 """
 
 right_format = """
