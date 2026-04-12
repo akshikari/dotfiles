@@ -159,7 +159,6 @@ return {
         'clang-format', -- C/C++ Formatter
         'prettier', -- TypeScript, JavaScript, Markdown, HTML, CSS Formatter
         'prettierd', -- More performant formatter
-        'mypy', -- Python type checker
         'eslint_d', -- JavaScript/TypeScript linter
         'markdownlint', -- Markdown linter
         'golangci-lint', -- Golang linter

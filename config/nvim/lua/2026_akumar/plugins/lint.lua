@@ -11,7 +11,6 @@ return {
         json = { 'jsonlint' }, -- JSON linter
         javascript = { 'eslint_d' }, -- JavaScript linter
         typescript = { 'eslint_d' }, -- TypeScript linter
-        python = { 'mypy' }, -- Python type checker
         rust = { 'cargo' }, -- Rust linter (via cargo check)
         cpp = { 'clangtidy' }, -- C++ linter
         c = { 'clangtidy' }, -- C linter
