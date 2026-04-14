@@ -49,6 +49,18 @@ return {
           end
 
           local client = vim.lsp.get_client_by_id(event.data.client_id)
+
+          -- Suppress all basedpyright diagnostics; ruff handles linting
+          if client and client.name == 'basedpyright' then
+            client.handlers['textDocument/publishDiagnostics'] = function() end
+            client.handlers['textDocument/diagnostic'] = function() end
+          end
+
+          -- Disable ruff's hover; basedpyright's is more informative
+          if client and client.name == 'ruff' then
+            client.server_capabilities.hoverProvider = false
+          end
+
           if client and client_supports_method(client, vim.lsp.protocol.Methods.textDocument_documentHighlight, event.buf) then
             local highlight_augroup = vim.api.nvim_create_augroup('kickstart-lsp-highlight', { clear = false })
             vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
@@ -117,26 +129,25 @@ return {
         html = {}, -- HTML language server
         cssls = {}, -- CSS language server
         marksman = {}, -- Markdown language server
-        ruff = { -- Python linter/fixer LSP (diagnostics only)
-          on_attach = function(client)
-            -- Let basedpyright handle hover; ruff's hover is less useful
-            client.server_capabilities.hoverProvider = false
-          end,
-        },
+        ruff = {}, -- Python linter/fixer LSP (diagnostics only)
         basedpyright = { -- Python LSP for navigation (go-to-def, references, etc.)
           settings = {
             basedpyright = {
               analysis = {
-                typeCheckingMode = 'off', -- disable all type-checking diagnostics
+                typeCheckingMode = 'off', -- disable type-checking; ruff handles diagnostics
                 diagnosticMode = 'openFilesOnly',
                 useLibraryCodeForTypes = true,
                 autoImportCompletions = true,
               },
             },
           },
-          -- Suppress all diagnostics from basedpyright; ruff handles those
+          on_init = function(client)
+            client.server_capabilities.diagnosticProvider = nil
+          end,
           handlers = {
+            -- Belt-and-suspenders: also suppress at the lspconfig handler level
             ['textDocument/publishDiagnostics'] = function() end,
+            ['textDocument/diagnostic'] = function() end,
           },
         },
         ts_ls = {}, -- TypeScript language server
@@ -154,7 +165,6 @@ return {
 
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
-        'basedpyright', -- Python navigation LSP
         'stylua', -- Lua formatter
         'clang-format', -- C/C++ Formatter
         'prettier', -- TypeScript, JavaScript, Markdown, HTML, CSS Formatter
