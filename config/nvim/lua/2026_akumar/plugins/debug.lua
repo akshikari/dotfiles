@@ -216,6 +216,33 @@ return {
     dap.configurations.python = {
       {
         type = 'python',
+        request = 'launch',
+        name = 'Debug Current File',
+        program = '${file}',
+        console = 'integratedTerminal',
+        justMyCode = false,
+        cwd = '${workspaceFolder}',
+      },
+      {
+        type = 'python',
+        request = 'launch',
+        name = 'Debug Python Module',
+        module = function()
+          return vim.fn.input 'Module (e.g. mypackage.cli): '
+        end,
+        args = function()
+          local args_string = vim.fn.input 'Arguments (optional): '
+          if args_string == '' then
+            return {}
+          end
+          return vim.split(args_string, ' ')
+        end,
+        console = 'integratedTerminal',
+        justMyCode = false,
+        cwd = '${workspaceFolder}',
+      },
+      {
+        type = 'python',
         request = 'attach',
         name = 'Attach to FastAPI (Docker)',
         connect = {
