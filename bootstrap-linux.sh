@@ -109,6 +109,31 @@ if ! command -v gcloud &>/dev/null && [ ! -d "$HOME/google-cloud-sdk" ]; then
   "$HOME/google-cloud-sdk/install.sh" --quiet
 fi
 
+# Oracle Instant Client — WSL only (required for cx_Oracle)
+if [ "$IS_WSL" = true ]; then
+  INSTANTCLIENT_DIR="$HOME/oracle/instantclient_21_15"
+  if [ ! -d "$INSTANTCLIENT_DIR" ]; then
+    echo "==> Installing Oracle Instant Client 21.15..."
+    # libaio is a runtime dependency of Instant Client
+    # Ubuntu 22.04+ renamed the package to libaio1t64
+    if apt-cache show libaio1 &>/dev/null; then
+      sudo apt-get install -y libaio1
+    else
+      sudo apt-get install -y libaio1t64
+    fi
+    sudo apt-get install -y unzip
+    mkdir -p "$HOME/oracle"
+    ZIPFILE="instantclient-basic-linux.x64-21.15.0.0.0dbru.zip"
+    curl -fsSL "https://download.oracle.com/otn_software/linux/instantclient/2115000/${ZIPFILE}" \
+      -o "/tmp/${ZIPFILE}"
+    unzip -q "/tmp/${ZIPFILE}" -d "$HOME/oracle"
+    rm "/tmp/${ZIPFILE}"
+    echo "==> Oracle Instant Client installed to ${INSTANTCLIENT_DIR}"
+  else
+    echo "==> Oracle Instant Client already installed, skipping"
+  fi
+fi
+
 # Set up symlinks
 echo "==> Setting up dotfile symlinks..."
 bash "$HOME/dotfiles/setup.sh"

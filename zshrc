@@ -74,6 +74,18 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   alias vima="nvim $HOME/.config/aerospace/aerospace.toml"
 fi
 
+# Oracle Instant Client (WSL only — required for cx_Oracle)
+if [[ -n "$WSL_DISTRO_NAME" ]]; then
+  _OIC="$HOME/oracle/instantclient_21_15"
+  if [[ -d "$_OIC" ]]; then
+    export ORACLE_HOME="$_OIC"
+    export LD_LIBRARY_PATH="$_OIC${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+    export PATH="$_OIC:$PATH"
+    # To use tnsnames.ora aliases, set: export TNS_ADMIN="$HOME/oracle/network/admin"
+  fi
+  unset _OIC
+fi
+
 # Google Cloud SDK
 if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then
   . "$HOME/google-cloud-sdk/path.zsh.inc"
